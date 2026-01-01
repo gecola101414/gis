@@ -1,4 +1,36 @@
 
+export enum UserRole {
+  ADMIN = 'Amministratore',
+  EDITOR = 'Ufficio Tecnico',
+  ACCOUNTANT = 'Ufficio Amministrativo',
+  VIEWER = 'Visualizzatore'
+}
+
+export interface User {
+  id: string;
+  username: string;
+  passwordHash: string;
+  role: UserRole;
+  lastActive?: string;
+}
+
+export interface ChatMessage {
+  id: string;
+  userId: string;
+  username: string;
+  text: string;
+  timestamp: string;
+}
+
+export interface AuditEntry {
+  id: string;
+  timestamp: string;
+  userId: string;
+  username: string;
+  action: string;
+  details: string;
+}
+
 export enum WorkStatus {
   PROGETTO = 'Progetto (Stima)',
   AFFIDAMENTO = 'Affidamento (Contratto)',
@@ -6,74 +38,86 @@ export enum WorkStatus {
   ANNULLATO = 'Annullato'
 }
 
-export interface BidResult {
-  winner: string;
-  bidValue: number;
-  date: string;
-  contractPdf?: {
-    name: string;
-    data: string;
-  };
+export interface PlanningNeed {
+  id: string;
+  chapter: string;
+  barracks: string;
+  description: string;
+  projectValue: number;
+  quotationValue?: number;
+  projectPdf?: { name: string; data: string; };
+  quotationPdf?: { name: string; data: string; };
+  listId?: string; // ID della lista mirata di appartenenza
+  locked?: boolean;
+  createdAt: string;
+  ownerName: string;
 }
 
-export interface PaymentResult {
-  paidValue: number;
-  invoiceDate: string;
-  invoiceNumber: string;
-  invoicePdf?: {
-    name: string;
-    data: string;
-  };
-  creGenerated: boolean;
-  creDate?: string;
+export interface PlanningList {
+  id: string;
+  name: string;
+  createdAt: string;
 }
 
 export interface FundingIDV {
   id: string;
-  idvCode: string;     // Identificativo univoco finanziamento
-  capitolo: string;    // Capitolo di spesa
-  amount: number;      // Importo totale assegnato (l'assegno)
-  motivation: string;  // Motivazione/Provenienza
+  idvCode: string;
+  capitolo: string;
+  amount: number;
+  motivation: string;
   createdAt: string;
-  locked?: boolean;    // Stato di blocco del fondo
+  ownerId: string;
+  ownerName: string;
+  assignedToId?: string;
+  assignedToName?: string;
+  locked?: boolean;
 }
 
 export interface WorkOrder {
   id: string;
   orderNumber: string;
   description: string;
-  
-  // Fasi della spesa
-  estimatedValue: number;  // Valore fase Progetto
-  contractValue?: number;  // Valore fase Affidamento
-  paidValue?: number;      // Valore fase Pagamento
-  
-  linkedIdvIds: string[];  // IDV (assegni) utilizzati per coprire questa spesa
+  estimatedValue: number;
+  contractValue?: number;
+  paidValue?: number;
+  linkedIdvIds: string[];
   status: WorkStatus;
-  winner?: string;         // Aggiudicatario (per fase Affidamento)
+  winner?: string;
   createdAt: string;
-  locked?: boolean;        // Stato di blocco della pratica
-  projectPdf?: {           // Allegato PDF del progetto protocollato
-    name: string;
-    data: string;          // Base64 encoded PDF
-  };
-  contractPdf?: {          // Allegato contratto/affidamento
-    name: string;
-    data: string;
-  };
-  invoicePdf?: {           // Allegato fattura
-    name: string;
-    data: string;
-  };
-  creGenerated?: boolean;  // Indica se il CRE è stato emesso
-  creDate?: string;        // Data emissione CRE
+  ownerId: string;
+  ownerName: string;
+  locked?: boolean;
+  projectPdf?: { name: string; data: string; };
+  contractPdf?: { name: string; data: string; };
+  invoicePdf?: { name: string; data: string; };
+  creGenerated?: boolean;
+  creDate?: string;
 }
 
-export interface ChapterStats {
-  capitolo: string;
-  totalBudget: number;
-  committed: number;   // Somma stime progetti
-  contracted: number;  // Somma contratti affidati
-  spent: number;       // Somma fatture pagate
-  available: number;   // Residuo reale (Budget - Impegni/Spese)
+export interface AppState {
+  version: number;
+  users: User[];
+  idvs: FundingIDV[];
+  orders: WorkOrder[];
+  planningNeeds: PlanningNeed[];
+  planningLists: PlanningList[];
+  auditLog: AuditEntry[];
+  chatMessages: ChatMessage[];
+  lastSync: string;
+}
+
+export interface BidResult {
+  winner: string;
+  bidValue: number;
+  date: string;
+  contractPdf?: { name: string; data: string; };
+}
+
+export interface PaymentResult {
+  paidValue: number;
+  invoiceDate: string;
+  invoiceNumber: string;
+  invoicePdf?: { name: string; data: string; };
+  creGenerated: boolean;
+  creDate: string;
 }

@@ -1,6 +1,6 @@
 {
-  "name": "PPB 1.3  ottimizzazione cellulare",
-  "description": "Sistema professionale per il monitoraggio del ciclo finanziario: Fondi, Affidamenti e Pagamenti del CME Lombardia.",
+  "name": "PPB 3.0 - cminiserver completo di programma per funzionare in stand alone",
+  "description": "Sistema professionale per il monitoraggio del ciclo finanziario con cifratura AES-256-GCM e protezione anti-manomissione.",
   "requestFramePermissions": [
     "microphone"
   ]

@@ -8,7 +8,10 @@ export const INITIAL_IDVS: FundingIDV[] = [
     capitolo: '1010', 
     amount: 150000, 
     motivation: 'Fondi PNRR Digitalizzazione',
-    createdAt: '2024-01-10'
+    createdAt: '2024-01-10',
+    // Fix: Added missing ownerId and ownerName required by FundingIDV interface
+    ownerId: 'u-admin',
+    ownerName: 'Admin'
   },
   { 
     id: 'idv-2', 
@@ -16,7 +19,10 @@ export const INITIAL_IDVS: FundingIDV[] = [
     capitolo: '1020', 
     amount: 80000, 
     motivation: 'Manutenzione Infrastrutture',
-    createdAt: '2024-02-05'
+    createdAt: '2024-02-05',
+    // Fix: Added missing ownerId and ownerName required by FundingIDV interface
+    ownerId: 'u-admin',
+    ownerName: 'Admin'
   }
 ];
 
@@ -28,6 +34,9 @@ export const INITIAL_ORDERS: WorkOrder[] = [
     estimatedValue: 45000,
     linkedIdvIds: ['idv-1'],
     status: WorkStatus.PROGETTO,
-    createdAt: '2024-03-01'
+    createdAt: '2024-03-01',
+    // Fix: Added missing ownerId and ownerName required by WorkOrder interface
+    ownerId: 'u-admin',
+    ownerName: 'Admin'
   }
 ];
